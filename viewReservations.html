@@ -20,7 +20,7 @@
             <hr class="my-4">
             <h2 class="text-center">We only have 5 tables! Book your seat before they all are gone!</h2>
             <div class="text-center">
-                <a href="/tables"><button type="button" class="btn btn-lg btn-primary"><span
+                <a href="/view"><button type="button" class="btn btn-lg btn-primary"><span
                             class="glyphicon glyphicon-list-alt"></span> View Tables</button></a>
                 <a href="/reserve"><button type="button" class="btn btn-lg btn-danger"><span
                             class="glyphicon glyphicon-credit-card"></span> Make Reservation</button></a>
@@ -35,11 +35,11 @@
                         <h3><strong>Table Reservations</strong></h3>
                     </div>
                     <div class="card-body">
-                        <h2 id="name">Yoda</h2>
+                        <h2 id="customerName">Table 1</h2>
                         <div id="stats">
-                            <h3><strong>Role:</strong> <span id="role">Jedi Master</span></h3>
-                            <h3><strong>Age:</strong> <span id="age">900</span></h3>
-                            <h3><strong>Force Points:</strong> <span id="force-points">2000</span></h3>
+                            <h3><strong>Phone:</strong> <span id="phoneNumber">919 111-2222</span></h3>
+                            <h3><strong>Email:</strong> <span id="customerEmail">test@gmail.com</span></h3>
+                            <h3><strong>ID:</strong> <span id="customerID">testID</span></h3>
                         </div>
                     </div>
                 </div>
@@ -51,17 +51,33 @@
 
         $.get("/api/tables/", function (data) {
             console.log(data);
-            // if (data) {
-            //     $("#stats").show();
-            //     $("#name").text(data.name);
-            //     $("#role").text(data.role);
-            //     $("#age").text(data.age);
-            //     $("#force-points").text(data.forcePoints);
-            // } else {
-            //     $("#name").text(
-            //         "The force is not strong with this one. Your character was not found.");
-            //     $("#stats").hide();
-            // }
+            $(".card-body").empty();
+            for (let index = 0; index < data.length; index++) {
+                var newHeader = $("<h2>");
+                newHeader.text(data[index].customerName)
+                $(".card-body").append(newHeader);
+
+                var newDiv = $("<div>");
+                var newPhone = $("<h3>");
+                newPhone.text("Phone: " + data[index].phoneNumber);
+                var newEmail = $("<h3>");
+                newEmail.text("Email: " + data[index].customerEmail);
+                var newID = $("<h3>");
+                newID.text("ID: " + data[index].customerID);
+                newDiv.append(newPhone);
+                newDiv.append(newEmail);
+                newDiv.append(newID);
+                $(".card-body").append(newDiv);
+                $(".card-body").append("<hr>");
+
+                if(index == 4) {
+                    $(".card-body").append("<hr>");
+                    $(".card-body").append("<h1>Wait List</h1>");
+                    $(".card-body").append("<hr>");
+                }
+                
+            }
+            
         });
 
     </script>
